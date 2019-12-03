@@ -1,7 +1,5 @@
 const exec = require("../db/mysql");
 
-
-
 /**
  * r
  * @param {*} author
@@ -37,8 +35,8 @@ const getBlogDetail = id => {
 
 /**
  * u
- * @param {d} id 
- * @param {*} updateData 
+ * @param {d} id
+ * @param {*} updateData
  */
 const setBlogUpdate = (id, updateData = {}) => {
   console.log("updateData", updateData);
@@ -58,7 +56,7 @@ const setBlogUpdate = (id, updateData = {}) => {
 
 /**
  * c
- * @param {d} body 
+ * @param {d} body
  */
 const createPost = body => {
   let { title, author, content } = body;
@@ -77,11 +75,10 @@ const createPost = body => {
 
 /**
  * d
- * @param {*} id 
+ * @param {*} id
  */
-const deletePost = id => {
-  let sql = `delete from posts where id = ${id}`;
-  console.log("delete id", id);
+const deletePost = (id, author) => {
+  let sql = `delete from posts where id = ${id} and author=${author}`;
   return exec(sql).then(result => {
     return result.affectedRows === 1 ? true : false;
   });
