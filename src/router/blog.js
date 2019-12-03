@@ -16,21 +16,22 @@ const loginCheck = request => {
 
 const handleBlogRouter = (request, response) => {
   const id = request.query.id;
-  const body = request.session;
+  let body = request.body;
+  body['username'] = request.session.username;
   // 请求博客列表
   if (request.method === "GET" && request.path === "/api/blog/list") {
-    const author = request.body.author || "";
-    const keyword = request.body.keyword || "";
-    
+    let author = request.body.author || "";
+    let keyword = request.body.keyword || "";
+
 
     if (request.query.isadmin) {
       // 管理员界面
       const loginCheckResult = loginCheck(request);
       if (loginCheckResult) {
-        console.log('loginCheckResult :) ', loginCheckResult);  
+        // console.log('loginCheckResult :) ', loginCheckResult);
         return loginCheckResult;
       }
-      
+
       // 只查询自己的博客
       author = request.session.username;
     }

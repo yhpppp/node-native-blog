@@ -68,7 +68,7 @@ const handleServer = (request, response) => {
   
   // 解析 cookie
   request.cookie = {};
-  console.log('request.headers.cookie :) ', request.headers.cookie);
+  // console.log('request.headers.cookie :) ', request.headers.cookie);
   let cookieStr = request.headers.cookie || "";
 
   cookieStr.split(";").forEach(element => {
@@ -118,6 +118,8 @@ const handleServer = (request, response) => {
         request.body = "";
       } else {
         request.body = JSON.parse(postdata);
+        // console.log('request.body  :)  ', request.body );
+        
       }
 
       // 博客路由处理
@@ -127,11 +129,11 @@ const handleServer = (request, response) => {
         blogDataResult.then(blogData => {
           // console.log("blogData :) ", blogData);
           if (needSetCookie) {
-            console.log("needSetCookie :) ", needSetCookie);
+            // console.log("needSetCookie :) ", needSetCookie);
 
             response.setHeader(
               "Set-Cookie",
-              `userid=${userId}; path='/'; httpOnly; expires=${getCookieExpire()} `
+              `userid=${userId}; path=/; httpOnly; expires=${getCookieExpire()};`
             );
           }
           response.end(JSON.stringify(blogData));
@@ -147,7 +149,7 @@ const handleServer = (request, response) => {
           if (needSetCookie) {
             response.setHeader(
               "Set-Cookie",
-              `userid=${userId}; path='/'; httpOnly; expires=${getCookieExpire()} `
+              `userid=${userId}; path=/; httpOnly; expires=${getCookieExpire()};`
             );
           }
           response.end(JSON.stringify(userResult));

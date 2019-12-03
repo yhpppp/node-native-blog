@@ -59,10 +59,10 @@ const setBlogUpdate = (id, updateData = {}) => {
  * @param {d} body
  */
 const createPost = body => {
-  let { title, author, content } = body;
+  let { title, username, content } = body;
 
   let createtime = Date.now();
-  var sql = `insert into posts (title, author, content, createtime) values ('${title}', '${author}', '${content}', '${createtime}')`;
+  var sql = `insert into posts (title, author, content, createtime) values ('${title}', '${username}', '${content}', '${createtime}')`;
 
   return exec(sql).then(data => {
     return {

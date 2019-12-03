@@ -12,8 +12,8 @@ if (env === "production") {
     port: "3306",
     host: "127.0.0.1",
     user: "root",
-    password: "root",
-    database: "myblog"
+    password: "",
+    database: "node-learn-blog-1"
   };
 
   REDIS_CONF = {
