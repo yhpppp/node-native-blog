@@ -95,6 +95,8 @@
             // 显示数据
             const data = res.data || []
             data.forEach(item => {
+                console.log('item :)', item);
+                
                 $tableContainer.append($(`
                     <tr>
                         <td>
@@ -125,7 +127,7 @@
             }
 
             if (confirm('确定删除？')) {
-                const url = '/api/blog/del?id=' + $target.attr('data-id')
+                const url = '/api/blog/delete?id=' + $target.attr('data-id')
                 post(url).then(res => {
                     if (res.errno !== 0) {
                         alert('操作错误')

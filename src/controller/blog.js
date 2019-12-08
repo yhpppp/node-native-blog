@@ -1,5 +1,5 @@
-const exec = require("../db/mysql");
-
+const {exec} = require("../db/mysql");
+const xss = require('xss')
 /**
  * r
  * @param {*} author
@@ -60,9 +60,10 @@ const setBlogUpdate = (id, updateData = {}) => {
  */
 const createPost = body => {
   let { title, username, content } = body;
-
+  title = xss(title)
   let createtime = Date.now();
   var sql = `insert into posts (title, author, content, createtime) values ('${title}', '${username}', '${content}', '${createtime}')`;
+console.log('sql :)', sql);
 
   return exec(sql).then(data => {
     return {
@@ -78,7 +79,9 @@ const createPost = body => {
  * @param {*} id
  */
 const deletePost = (id, author) => {
-  let sql = `delete from posts where id = ${id} and author=${author}`;
+  let sql = `delete from posts where id = ${id} and author='${author}';`;
+  console.log('sql :)', sql);
+  
   return exec(sql).then(result => {
     return result.affectedRows === 1 ? true : false;
   });

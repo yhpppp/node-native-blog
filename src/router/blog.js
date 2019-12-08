@@ -17,7 +17,12 @@ const loginCheck = request => {
 const handleBlogRouter = (request, response) => {
   const id = request.query.id;
   let body = request.body;
-  body['username'] = request.session.username;
+  console.log('body :)', body);
+  console.log('request.session :)', request.session);
+  
+  body['username'] = body['username']?body['username']:request.session.username
+  body['realname'] = body['realname']?body['realname']:request.session.realname
+  body['password'] = body['password']?body['password']:request.session.password
   // 请求博客列表
   if (request.method === "GET" && request.path === "/api/blog/list") {
     let author = request.body.author || "";

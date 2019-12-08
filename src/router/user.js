@@ -6,17 +6,20 @@ const { set } = require("../db/redis");
 const handleUserRouter = (req, res) => {
   // 请求用户登录
   if (req.method === "POST" && req.path === "/api/user/login") {
+    // req.body.
+    console.log('body :)', req.body);
+    
     var result = login(req.body);
 
     return result.then(data => {
-      console.log("data :) ", data);
+      // console.log("data :) ", data);
 
       if (data) {
         req.session.username = data.username;
         req.session.realname = data.realname;
         // 同步到redis
-        console.log("req.session :) ", req.session);
-        console.log("req.sessionId :) ", req.sessionId);
+        // console.log("req.session :) ", req.session);
+        // console.log("req.sessionId :) ", req.sessionId);
 
         set(req.sessionId, req.session);
 

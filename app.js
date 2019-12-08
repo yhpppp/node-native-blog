@@ -52,7 +52,7 @@ const handleServer = (request, response) => {
   if (url === "/favicon.ico") return;
   // record access log
   access(`${request.method} -- ${request.url} -- ${request.headers['user-agent']} -- ${Date.now()}`)
-  
+
   request.path = url.split("?")[0];
 
   request.query = querystring.parse(url.split("?")[1]);
@@ -147,6 +147,8 @@ const handleServer = (request, response) => {
       }
 
       // 用户路由处理
+        console.log('request.body  :)  ', request.body );
+
       var userData = handleUserRouter(request, response);
 
       if (userData) {
