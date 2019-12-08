@@ -2,6 +2,7 @@ const handleBlogRouter = require("./src/router/blog");
 const handleUserRouter = require("./src/router/user");
 const { get, set } = require("./src/db/redis");
 const querystring = require("querystring");
+const { access } = require('./src/utils/log')
 
 // session 数据
 let SESSION_DATA = {};
@@ -40,14 +41,18 @@ const getCookieExpire = () => {
   // d.setTime(d.getTime() + 10 * 1000);
   // console.log("d.toGMTString() :) ", d.toGMTString());
   console.log('getCookieExpire run');
-  
+
   return d.toGMTString();
 };
 
 const handleServer = (request, response) => {
+  
   response.setHeader("Content-Type", "application/json");
   var url = request.url;
   if (url === "/favicon.ico") return;
+  // record access log
+  access(`${request.method} -- ${request.url} -- ${request.headers['user-agent']} -- ${Date.now()}`)
+  
   request.path = url.split("?")[0];
 
   request.query = querystring.parse(url.split("?")[1]);
@@ -65,7 +70,7 @@ const handleServer = (request, response) => {
   //      req.cookie[key] = val
   //  })
   //  console.log('cookie is ', req.headers.cookie)
-  
+
   // 解析 cookie
   request.cookie = {};
   // console.log('request.headers.cookie :) ', request.headers.cookie);
@@ -78,7 +83,7 @@ const handleServer = (request, response) => {
 
     const itemArr = element.trim().split("=");
     // ;console.log('itemArr :) ', itemArr);
-    
+
     let key = itemArr[0];
     let value = itemArr[1];
     request.cookie[key] = value;
@@ -119,7 +124,7 @@ const handleServer = (request, response) => {
       } else {
         request.body = JSON.parse(postdata);
         // console.log('request.body  :)  ', request.body );
-        
+
       }
 
       // 博客路由处理
